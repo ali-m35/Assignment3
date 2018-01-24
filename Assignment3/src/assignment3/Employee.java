@@ -103,17 +103,39 @@
          return this.numberOfHours * this.hourlyWage;
      }// end getGrossPay
      
-      /**************************************************
-      * Purpose:    get the id of the circle
+       /**************************************************
+      * Purpose:    get the grosspay of the employee
       * 
       * Interface:
       * in:         none
-      * returns:    id: int
+      * returns:    the employees grosspay
       **************************************************/
+     public double getRegularPay() {
+         return this.getGrossPay()- 0.15;
+     }// end getRegularPay
      
-        
  	// ********** accessors **********
  	
+      /**************************************************
+      * Purpose:    returns a string of all the employee properties
+      * 
+      * Interface:
+      * in:         none
+      * returns:    the employees properties
+      **************************************************/
+     public String toString(){
+         String info = "";
+         
+         info = String.format("ID: %16d\n",this.getID());
+         info += String.format("Gross Pay: %16.5f\n", this.getGrossPay());
+         info += String.format("Hours Worked: %16.5f\n", this.getHours());
+         info += String.format("Wage: %16.5f\n", this.getWage());
+         info += String.format("Regular Pay: %16.5f\n", this.getRegularPay());
+         info += String.format("\n\n");
+         
+         return info;
+     } // end toString
+     
  	// ********** mutators **********
  
  }  // end class
