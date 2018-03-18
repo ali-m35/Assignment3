@@ -74,7 +74,7 @@ public class EmployeeClient/*CHANGE THIS TO THE NAME OF THE FILE*/
         while (strin != null) {
             hours = Integer.parseInt(strin);
             wage = Double.parseDouble(strin);
-            employees.add(new Employee (hours, wage));
+            employees.add(new Employee (hours, (int) wage));
             
             strin = fin.readLine();
         }// end eof lloop
