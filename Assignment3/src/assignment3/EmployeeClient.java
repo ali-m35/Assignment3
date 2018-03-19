@@ -19,6 +19,7 @@ import javax.swing.*;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
+
 public class EmployeeClient/*CHANGE THIS TO THE NAME OF THE FILE*/
 {  // begin class
 	public static void main(String args[]) throws IOException
@@ -33,48 +34,40 @@ public class EmployeeClient/*CHANGE THIS TO THE NAME OF THE FILE*/
     	
     	String prompt;				// prompt for use in input dialogs
     	
-    	String delim = "[ :]+";		// delimiter string for splitting input string
+    	String delim = "[ ]+";		// delimiter string for splitting input string
     	String tabSpace = "      ";	// six spaces
-        
-        BufferedReader fin = null; // read from disk
+        String tokens[] = null;
         
         double wage = 0.0; // wage of employee
         int hours = 0; // hours employee has worked
-        
-        ArrayList <Employee> employees = new ArrayList(); //initiallizing array list
-    	  
             
 	// ***** create objects *****
-	 
-        try{
-            fin = new BufferedReader(new FileReader("employeedata.txt"));
-        } // end try
-        catch(FileNotFoundException e){
-            System.out.println("file not found");
-        } // end catch
         
+        BufferedReader fin = new BufferedReader(new FileReader("employeeData.txt"));
         PrintWriter fout = new PrintWriter(new BufferedWriter(new FileWriter("testOut.txt")));
-		
+        
+        ProgramInfo programInfo = new ProgramInfo("Assignment 3");
+        DecimalFormat df = new DecimalFormat("###.##"); 
+        ArrayList <Employee> employees = new ArrayList <>(); //initiallizing array list
 	// ***** create input stream *****
 	
 		//ConsoleReader console = new ConsoleReader(System.in);
 		
 	// ***** Print Banner *****
 	
-		System.out.println("**********************************");
-		System.out.println("NAME: Hanzala Ali");
-		System.out.println("Class: CS30S");
-		System.out.println("Assignment: Assignment 3");
-		System.out.println("**********************************");
+           System.out.println(programInfo.toString());
 		
 	// ***** get input *****
 
         strin = fin.readLine();
         
         while (strin != null) {
-            hours = Integer.parseInt(strin);
-            wage = Double.parseDouble(strin);
-            employees.add(new Employee (hours, (int) wage));
+            tokens = strin.split(delim);
+            
+            hours = Integer.parseInt(tokens[0]);
+            wage = Double.parseDouble(tokens[1]);
+            
+            employees.add(new Employee(hours, wage));
             
             strin = fin.readLine();
         }// end eof lloop
@@ -84,12 +77,24 @@ public class EmployeeClient/*CHANGE THIS TO THE NAME OF THE FILE*/
 		
 	// ***** output *****
 	
-        System.out.println(employees.toString());
+         for(Employee i: employees) //output data for each employee
+            System.out.println(i);
+        
+        System.out.println("\nEmployee 1's ID is: " + employees.get(0).getID());
+        System.out.println("Employee 2's normal pay is: $" + df.format(employees.get(1).getRegularPay()));
+        System.out.println("Employee 3's overtime pay is: $" + df.format(employees.get(2).getOvertimePay()));
+        System.out.println("Employee 4's gross pay is: $" + df.format(employees.get(3).getGrossPay()));
+        System.out.println("Employee 5's hours are: " + employees.get(4).getHours() + "\n");
 		// all formatted ouput is printed in this section
 
 	// ***** closing message *****
 	
-		System.out.println("end of processing");
+            System.out.println(programInfo.eoFile());
+            fout.println(programInfo.eoFile());
 	
+        // ***** close streams *****
+        
+        fin.close();            // close input buffer
+        fout.close();           // close output buffer
 	}  // end main	
 }  // end class

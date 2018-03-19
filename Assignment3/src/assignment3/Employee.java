@@ -19,12 +19,16 @@
  	// *********** class constants **********
  	
         private static int nextID = 1000;
+        private final double OVERTIMECALCULATION = 1.5;
+        private final int REGULARHOURS = 40;
  	
  	// ********** instance variable **********
  	
         private int employeeID = 0;
         private double hourlyWage = 0.0;
         private int numberOfHours = 0;
+        private double regularPay = 0.0;
+        private double overtimePay = 0.0;
         
  	// ********** constructors ***********
  	
@@ -38,8 +42,6 @@
          **************************************************/
       public Employee(){
          employeeID = nextID++;     // set id and incremnet next id
-         numberOfHours = 0;
-         hourlyWage = 0.0;
       } // end default constructor
       
         /**************************************************
@@ -50,12 +52,14 @@
          * in:         none
          * returns:    none
          **************************************************/
-      public Employee(double r, int e){
+      public Employee(int e, double r){
           employeeID = nextID++;
           numberOfHours = e;
           hourlyWage = r;
       }// end initialized constructor
        
+      // ********** accessors **********
+      
          /**************************************************
          * Purpose:    get hourly wage of employee 
          * properties
@@ -98,24 +102,57 @@
       * returns:    the employees grosspay
       **************************************************/
      
-     public double getGrossPay() {
+     public double getGrossPay () {
+         double grossPay = 0.0;
+         int overtimeHours = 0;
          
-         return this.numberOfHours * this.hourlyWage;
+            if (numberOfHours > REGULARHOURS) {
+                overtimeHours = numberOfHours - REGULARHOURS;
+                overtimePay = overtimeHours * (hourlyWage * OVERTIMECALCULATION);
+                regularPay = (numberOfHours - overtimeHours) * hourlyWage;
+                grossPay = regularPay + overtimePay;
+            }
+            
+            else {
+                regularPay = numberOfHours * hourlyWage;
+                grossPay = regularPay;
+            }
+      
+           return grossPay;
      }// end getGrossPay
      
-       /**************************************************
+     /**************************************************
       * Purpose:    get the grosspay of the employee
       * 
       * Interface:
       * in:         none
       * returns:    the employees grosspay
       **************************************************/
-     public double getRegularPay() {
-         return this.getGrossPay()- 0.15;
+     public double getOvertimePay () {
+         double overtimePay = 0.0;
+         int overtimeHours = numberOfHours - REGULARHOURS;
+         
+         overtimePay = overtimeHours * (hourlyWage * OVERTIMECALCULATION);
+         
+         return overtimePay;
      }// end getRegularPay
-     
- 	// ********** accessors **********
- 	
+      /**************************************************
+      * Purpose:    returns a string of all the employee properties
+      * 
+      * Interface:
+      * in:         none
+      * returns:    the employees properties
+      **************************************************/
+     public double getRegularPay (){
+         int regularHours = 0;
+         int overtimeHours = numberOfHours - REGULARHOURS;
+         
+         regularHours = numberOfHours - overtimeHours;
+         regularPay = regularHours *hourlyWage;
+         
+         return regularPay;
+     }
+      
       /**************************************************
       * Purpose:    returns a string of all the employee properties
       * 
